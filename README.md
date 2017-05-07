@@ -9,9 +9,9 @@ Taming AKKA Actors in OSGi container.
  * Apache Felix Container 4.x
 
 # Caveats
-AKKA bundles its 'reference.conf' inside akka-actors jar which is not so ideal for OSGi deployments. According to AKKA documentation only one (and possibly) big bundle should be deployed containing all actors and their corresponding ActorSystem.
+AKKA bundles its 'reference.conf' inside akka-actors jar which is not so ideal for OSGi deployments. According to [AKKA documentation](http://doc.akka.io/docs/akka/current/additional/osgi.html#Intended_Use) only one (and possibly) big bundle should be deployed containing all actors and their corresponding ActorSystem.
 
-This sucks for dynamic and modular deployments where Actors might come and go and where all parts of application might be implemented in one go...
+This sucks for dynamic and modular deployments where Actors might come and go and where all parts of application might be __not__ be implemented in one go...
 
 # Configuration
 Drop into $karaf.home/etc directory config file __akka.options.cfg__.

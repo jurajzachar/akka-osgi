@@ -1,0 +1,139 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.blueskiron</groupId>
+  <artifactId>akka-actor-osgi-example-a</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>${project.groupId}.${project.artifactId}</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <slf4j.version>1.7.24</slf4j.version>
+    <osgi.version>5.0.0</osgi.version>
+    <felix.version>4.1.1</felix.version>
+    <akka.version>2.5.1</akka.version>
+    <scala.version>2.12.2</scala.version>
+    <scala.compat.version>2.12</scala.compat.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.blueskiron</groupId>
+      <artifactId>akka-osgi</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.typesafe.akka</groupId>
+      <artifactId>akka-actor_${scala.compat.version}</artifactId>
+      <version>${akka.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>${osgi.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>${scala.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.felix</groupId>
+      <artifactId>org.apache.felix.dependencymanager</artifactId>
+      <version>${felix.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+
+    <sourceDirectory>src/main/scala</sourceDirectory>
+    <testSourceDirectory>src/test/scala</testSourceDirectory>
+
+    <plugins>
+      <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>testCompile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <recompileMode>incremental</recompileMode>
+          <scalaVersion>${scala.version}</scalaVersion>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <configuration>
+              <archive>
+                <!-- Generate a jar INDEX.LIST -->
+                <index>true</index>
+                <!-- A manifest containing the OSGi metadata has been generated using the maven-bundle-plugin -->
+                <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                <!-- Add the Maven coordinates in the manifest -->
+                <manifestEntries>
+                  <Maven-Group-Id>${project.groupId}</Maven-Group-Id>
+                  <Maven-Artifact-Id>${project.artifactId}</Maven-Artifact-Id>
+                  <Maven-Version>${project.version}</Maven-Version>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>2.5.3</version>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+            <configuration>
+              <instructions>
+                <Import-Package>
+                  *
+                </Import-Package>
+                <Export-Package>com.blueskiron.akka.actor.osgi.example.api.*</Export-Package>
+                <Bundle-Activator>com.blueskiron.akka.actor.osgi.example.a.Activator</Bundle-Activator>
+              </instructions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>

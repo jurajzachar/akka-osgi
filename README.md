@@ -29,6 +29,12 @@ Write your actors as you'd normally would. A bit of boilerplate code is needed t
 
 This service exposes already configured __ActorSystem__ and parsed __Typesafe Config__. All of this happens in __akka-osgi__ bundle. Deploy your actors using _Props_ and optionally give them names or just just consume the _Config_ which is meant for this purpose.
 
+__Important__[!]. Create at least one instance of
+
+> ServiceRegistration[Actor]
+
+in the bundle where your actors are packaged. This instructs __ActorSystemWithCofig__ ClassLoader to consider you bundle in the search when looking for Actor implementation class.
+
 # Example
 In the provided example two types of actors come from two separate bundles which might be deployed into the container dynamically:
 

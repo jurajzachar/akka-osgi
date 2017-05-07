@@ -33,7 +33,7 @@ __Important__[!]. Create at least one instance of
 
 > ServiceRegistration[Actor]
 
-in the bundle where your actors are packaged. This instructs __ActorSystemWithCofig__ ClassLoader to consider you bundle in the search when looking for Actor implementation class.
+in the bundle where your actors are packaged. This instructs __ActorSystemWithConfig__ ClassLoader to consider you bundle in the search when looking for Actor implementation class.
 
 # Example
 In the provided example two types of actors come from two separate bundles which might be deployed into the container dynamically:
